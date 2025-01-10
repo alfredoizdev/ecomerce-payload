@@ -66,4 +66,8 @@
   tr:nth-child(even) {
     @apply bg-muted;
   }
+
+  hr {
+    @apply border-gray-500 border-dotted my-4;
+  }
 }
