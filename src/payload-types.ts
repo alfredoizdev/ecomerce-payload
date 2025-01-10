@@ -110,28 +110,38 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: {
-    content: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
+  layout: (
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
           [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
-    position?: ('default' | 'reverse') | null;
-    image?: (string | null) | Media;
-    id?: string | null;
-    blockName?: string | null;
-    blockType: 'twoColumns';
-  }[];
+        };
+        position?: ('default' | 'reverse') | null;
+        image?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'twoColumns';
+      }
+    | {
+        title?: string | null;
+        content?: string | null;
+        image?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+  )[];
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -342,6 +352,15 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               content?: T;
               position?: T;
+              image?: T;
+              id?: T;
+              blockName?: T;
+            };
+        hero?:
+          | T
+          | {
+              title?: T;
+              content?: T;
               image?: T;
               id?: T;
               blockName?: T;

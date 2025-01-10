@@ -1,4 +1,5 @@
 import { getPageBySlugAction } from '@/actions/pages'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { Page } from '@/payload-types'
 import { notFound } from 'next/navigation'
 
@@ -18,8 +19,9 @@ const SlugPage = async ({ params }: Params) => {
   }
 
   return (
-    <div className="mx-auto max-w-2xl text-red-600">
+    <div className="container">
       <h2>{page.title}</h2>
+      <RenderBlocks blocks={page.layout} />
     </div>
   )
 }

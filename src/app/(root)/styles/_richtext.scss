@@ -1,0 +1,69 @@
+.payload-richtext {
+  h1 {
+    @apply text-4xl font-bold;
+  }
+  h2 {
+    @apply text-3xl font-bold;
+  }
+  h3 {
+    @apply text-2xl font-bold;
+  }
+  h4 {
+    @apply text-xl font-bold;
+  }
+  h5 {
+    @apply text-lg font-bold;
+  }
+  h6 {
+    @apply text-base font-bold;
+  }
+
+  p {
+    @apply text-base;
+  }
+
+  a {
+    @apply text-primary underline;
+  }
+
+  ul {
+    @apply list-disc pl-4;
+  }
+
+  ol {
+    @apply list-decimal pl-4;
+  }
+
+  blockquote {
+    @apply border-l-4 border-primary pl-4;
+  }
+
+  pre {
+    @apply bg-secondary p-4 rounded-lg;
+  }
+
+  code {
+    @apply font-mono;
+  }
+
+  img {
+    @apply mx-auto my-4;
+  }
+
+  table {
+    @apply w-full border-collapse;
+  }
+
+  th,
+  td {
+    @apply border border-border p-2;
+  }
+
+  th {
+    @apply bg-secondary text-secondary-foreground font-bold;
+  }
+
+  tr:nth-child(even) {
+    @apply bg-muted;
+  }
+}

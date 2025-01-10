@@ -1,4 +1,16 @@
-const TwoColunms = () => {
+import RichTextParse from '@/components/RichTextParse'
+import { Media } from '@/payload-types'
+import Image from 'next/image'
+import { SerializedEditorState } from 'node_modules/lexical/LexicalEditorState'
+import { SerializedLexicalNode } from 'node_modules/lexical/LexicalNode'
+
+const TwoColunmsBlock = ({
+  content,
+  image,
+}: {
+  content: SerializedEditorState<SerializedLexicalNode>
+  image: Media
+}) => {
   const isReverse = 'reverse'
 
   return (
@@ -7,22 +19,17 @@ const TwoColunms = () => {
       <div
         className={`w-full md:w-1/2 ${isReverse ? 'order-last md:order-last' : 'order-first md:order-first'}`}
       >
-        {/* <img
-          src={image}
-          alt="column content"
-          className="w-full h-auto object-cover rounded-lg"
-        /> */}
-        my image
+        {image && <Image src={`${image?.url}`} width={300} height={300} alt="column content" />}
       </div>
 
       {/* Contenedor del texto */}
       <div
         className={`w-full md:w-1/2 ${isReverse ? 'order-first md:order-first' : 'order-last md:order-last'}`}
       >
-        <p className="text-lg text-gray-800">my text</p>
+        <RichTextParse data={content} />
       </div>
     </div>
   )
 }
 
-export default TwoColunms
+export default TwoColunmsBlock
