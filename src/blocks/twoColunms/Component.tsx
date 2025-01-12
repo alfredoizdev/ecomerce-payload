@@ -1,17 +1,16 @@
-import RichTextParse from '@/components/RichTextParse'
 import { Media } from '@/payload-types'
 import Image from 'next/image'
-import { SerializedEditorState } from 'node_modules/lexical/LexicalEditorState'
-import { SerializedLexicalNode } from 'node_modules/lexical/LexicalNode'
 
 const TwoColunmsBlock = ({
   content,
   image,
+  title,
   position,
 }: {
-  content: SerializedEditorState<SerializedLexicalNode>
+  content: string
   image: Media
   position: string
+  title: string
 }) => {
   const isReverse = position === 'reverse' ? true : false
   return (
@@ -37,7 +36,8 @@ const TwoColunmsBlock = ({
       <div
         className={`w-full md:w-1/2 ${isReverse ? 'order-first md:order-first' : 'order-last md:order-last'}`}
       >
-        <RichTextParse data={content} />
+        <h2 className="text-5xl mb-3">{title}</h2>
+        <p className="text-base" dangerouslySetInnerHTML={{ __html: content }} />
       </div>
     </div>
   )

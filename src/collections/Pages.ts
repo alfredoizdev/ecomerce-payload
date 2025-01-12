@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { slugField } from '@/fields/slug'
 import { TwoColumns } from '@/blocks/twoColunms/config'
 import { Hero } from '@/blocks/Hero/config'
+import { RichText } from '@/blocks/RichText/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -27,7 +28,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [TwoColumns, Hero],
+      blocks: [TwoColumns, Hero, RichText],
       required: true,
     },
     ...slugField(),

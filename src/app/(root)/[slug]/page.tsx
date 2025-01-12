@@ -12,15 +12,12 @@ const SlugPage = async ({ params }: Params) => {
 
   const page: Page = await getPageBySlugAction(slug)
 
-  console.log(page)
-
   if (!page) {
     return notFound()
   }
 
   return (
     <div className="container">
-      <h2>{page.title}</h2>
       <RenderBlocks blocks={page.layout} />
     </div>
   )

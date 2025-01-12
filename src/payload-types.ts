@@ -14,6 +14,7 @@ export interface Config {
     users: User;
     media: Media;
     pages: Page;
+    AuthPages: AuthPage;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -24,6 +25,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    AuthPages: AuthPagesSelect<false> | AuthPagesSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -32,8 +34,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    header: Header;
+  };
+  globalsSelect: {
+    header: HeaderSelect<false> | HeaderSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -112,6 +118,23 @@ export interface Page {
   title: string;
   layout: (
     | {
+        title: string;
+        content: string;
+        position?: ('default' | 'reverse') | null;
+        image?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'twoColumns';
+      }
+    | {
+        title?: string | null;
+        content?: string | null;
+        image?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+    | {
         content: {
           root: {
             type: string;
@@ -127,19 +150,9 @@ export interface Page {
           };
           [k: string]: unknown;
         };
-        position?: ('default' | 'reverse') | null;
-        image?: (string | null) | Media;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'twoColumns';
-      }
-    | {
-        title?: string | null;
-        content?: string | null;
-        image?: (string | null) | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'hero';
+        blockType: 'richText';
       }
   )[];
   slug?: string | null;
@@ -147,6 +160,24 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Note: Pages with the type 'Login' or 'Register' will be automatically used as the login and registration pages, respectively.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AuthPages".
+ */
+export interface AuthPage {
+  id: string;
+  color: string;
+  title: string;
+  description: string;
+  image: string | Media;
+  type: 'Login' | 'Register';
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -260,6 +291,10 @@ export interface PayloadLockedDocument {
         value: string | Page;
       } | null)
     | ({
+        relationTo: 'AuthPages';
+        value: string | AuthPage;
+      } | null)
+    | ({
         relationTo: 'payload-jobs';
         value: string | PayloadJob;
       } | null);
@@ -350,6 +385,7 @@ export interface PagesSelect<T extends boolean = true> {
         twoColumns?:
           | T
           | {
+              title?: T;
               content?: T;
               position?: T;
               image?: T;
@@ -365,12 +401,34 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        richText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AuthPages_select".
+ */
+export interface AuthPagesSelect<T extends boolean = true> {
+  color?: T;
+  title?: T;
+  description?: T;
+  image?: T;
+  type?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -434,6 +492,53 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: string;
+  navItems?:
+    | {
+        link?: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  navItems?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

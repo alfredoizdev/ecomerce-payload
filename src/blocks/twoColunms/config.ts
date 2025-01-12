@@ -1,10 +1,4 @@
 import { Block } from 'payload'
-import {
-  FixedToolbarFeature,
-  HeadingFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical'
 
 export const TwoColumns: Block = {
   slug: 'twoColumns',
@@ -14,19 +8,14 @@ export const TwoColumns: Block = {
   },
   fields: [
     {
-      name: 'content',
-      type: 'richText',
+      name: 'title',
+      type: 'text',
       required: true,
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
+    },
+    {
+      name: 'content',
+      type: 'textarea',
+      required: true,
     },
     {
       name: 'position',
